@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Delete Document - LifeLedger</title>
+    <link rel="stylesheet" href="{% static 'documents/style.css' %}">
+</head>
+<body>
+    <!-- Navigation -->
+     <nav class="navbar">
+        <div class="logo">LifeLedger.</div>
+        <a href="{% url 'home' %}" class="nav-link">Dashboard</a>
+     </nav>
+
+     <main class="containee">
+        <!-- Page Header -->
+         <section class="delete-page-header">
+            <p>DOUMENT MANAGEMENT</p>
+            <h1>Delete Document</h1>
+            <p>Review your action before removing a document.</p>
+         </section>
+
+         <!-- Confirmation Card -->
+          <section class="delete-confirm-card">
+            <div class="delete-icon">⚠️</div>
+            <h2>Are you sure?</h2>
+            <p>You are about to delete <strong>{{ document.title }}</strong> from your LifeLedger.</p>
+            <p class="delete-warning">This action cannot be undone.</p>
+            <form method="post" class="delete-actions">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn">Yes, Delete Document</button>
+                <a href="{% url 'home' %}" class="cancel-btn">Cancel</a>
+            </form>
+          </section>
+     </main>
+</body>
+</html>

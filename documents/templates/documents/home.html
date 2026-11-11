@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLedger | Dashboard</title>
+    <link rel="stylesheet" href="{% static 'documents/style.css'%}">
+</head>
+<body>
+    <!--Navigation bar-->
+    <nav class="navbar">
+        <div class="log">LifeLedger.</div>
+
+        <div class="nav-actions"><a href="/" class="nav-link">Dashboard</a>
+
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <!--Main Dashboard-->
+    <main class="container">
+        <!--welcome section-->
+        <section class="welcome-section">
+            <div>
+                <h1>Welcome to LifeLedger!!</h1> 
+                <p>Keep track of important documents organised and never miss a renewal.</p>
+                <div class="dashboard-actions">
+                    <a href="{% url 'add_document' %}" class="btn">
+                        + Add Document
+                    </a>
+                    <a href="#upcoming" class="btn">
+                        View Upcoming Expiries
+                    </a>
+                    <a href="{% url 'all_documents' %}" class="btn">View All Documents</a>
+                </div>
+            </div>
+        </section>
+
+        <!--Summary cards-->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <p>Total Documents</p>
+                <h2>{{ total_documents }}</h2>
+            </div>
+            <div class="stat-card">
+                <p>Active Documents</p>
+                <h2>{{ active_documents }}</h2>
+            </div>
+            <div class="stat-card">
+                <p>Expiring Soon</p>
+                <h2>{{ expiring_documents }}</h2>
+            </div>
+            <div class="stat-card">
+                <p>Expired</p>
+                <h2>{{ expired_documents }}</h2>
+            </div>
+            <div class="stat-card urgent-card">
+                <p>Urgent: Expires Within 7 Days</p>
+                <h2>{{ urgent_count }}</h2>
+            </div>
+        </section>
+
+        <section class="urgent-alerts">
+            <h2 class="section-title">Urgent Expiry Alerts</h2>
+            {% for document in urgent_documents %}
+               <div class="document-row">
+                    <div>
+                        <p class="document-name">{{ document.title }}</p>
+                        <p class="document-date">Expires: {{ document.expiry_date|date:"d F Y" }}</p>
+                    </div>
+                    <a href="{% url 'edit_document' document.id %}">Edit</a>
+                </div>
+            {% empty %}
+                <p>No urgent expiry alerts. All clear!</p>
+            {% endfor %}
+        </section>
+
+        <!--Upcoming expiry section-->
+        <section id="upcoming">
+            <h2 class="section-title">Upcoming Expiries</h2>
+            <div class="document-list">
+                {% for document in upcoming_documents %}
+                <div class="document-row">
+                    <div>
+                        <p class="document-name">{{ document.title }}</p>
+                        <p class="document-date">Expires: {{ document.expiry_date|date:"d F Y" }}</p>
+                    </div>
+                    <span class="status">Expiring Soon</span>
+                <div>
+
+                <a href="{% url 'edit_document' document.id %}">Edit</a>
+
+                <a href="{% url 'delete_document' document.id %}">Delete</a>
+            {% empty %}
+               <p>No documents expiring in the next 30 days.</p>
+            {% endfor %}
+        </section>
+    </main>
+   
+</body>
+</html>

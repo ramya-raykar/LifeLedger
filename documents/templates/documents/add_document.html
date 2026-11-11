@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLedger | Add Document</title>
+    <link rel="stylesheet" href="{% static 'documents/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">LifeLedger.</div>
+        <a href="{% url 'home' %}" class="nav-link">Dashboard</a>
+    </nav>
+
+    <main class="container">
+        <section class="form-page-header">
+            <div>
+                <span class="form-tag">DOCUMENT MANAGEMENT</span>
+                <h1>Add New Document</h1>
+                <p>Keep your important documents safe, organised and up to date.</p>
+            </div>
+            <div class="form-header-icon">📄</div>
+        </section>
+
+        <section class="form-container">
+            <div class="form-heading">
+                <h2>Document Information</h2>
+                <p>Enter the details below to add a new document to your LifeLedger.</p>
+            </div>
+
+            {% if error %}
+                <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="title">Document Name <span>*</span></label>
+                        <input type="text" id="title" name="title" placeholder="e.g. Driving Licence" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="document_type">Document Type <span>*</span></label>
+                        <select name="document_type" id="document_type" required>
+                            <option value="">Select document type</option>
+                            <option value="Identity">Identity Document</option>
+                            <option value="Education">Education Certificate</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Vehicle">Vehicle Document</option>
+                            <option value="Passport">Passport</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="issue_date">Issue date <span>*</span></label>
+                        <input type="date" id="issue_date" name="issue_date" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="expiry_date">Expiry Date <span>*</span></label>
+                        <input type="date" id="expiry_date" name="expiry_date" required>
+                    </div>
+
+                    <div class="form-field full-width">
+                        <label for="notes">Additional Notes</label>
+                        <textarea name="notes" id="notes" rows="4" placeholder="Enter any additional details (optional)"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="{% url 'home' %}" class="cancel-btn">Cancel</a>
+                        <button type="submit" class="btn">Save Document</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

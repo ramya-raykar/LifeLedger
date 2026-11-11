@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | LifeLedger</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 7px;
+            color: #334155;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>LifeLedger</h1>
+        <p class="subtitle">Welcome back! Please login.</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="{{ form.username.if_for_label }}">Username</label>
+            {{ form.username }}
+
+            <label for="{{ form.password.id_for_label }}">Password</label>
+            <!-- <div class="password-wrapper"> -->
+                {{ form.password }}
+                <!-- <button type="button" id="togglePassword">Show</button> -->
+            <!-- </div> -->
+
+            <p style="text-align: right; margin-top: 10px;">
+                <a href="{% url 'password_reset' %}">Forgot Password?</a>
+            </p>
+
+            {% if form.errors %}
+               <p class="error">Invalid username or password. Please try again</p>
+            {% endif %}
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p class="register-link"> Don't have an account?
+            <a href="{% url 'register' %}">Create Account</a>
+        </p>
+    </div>
+</body>
+</html>

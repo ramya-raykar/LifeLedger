@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Document = LifeLedger</title>
+    <link rel="stylesheet" href="{% static 'documents/style.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+     <nav class="navbar">
+        <div class="logo">LifeLedger.</div>
+        <a href="{% url 'home' %}" class="nav-link">Dashboard</a>
+     </nav>
+
+     <main class="container">
+
+        <!-- Page Heading -->
+         <section class="from-page-header">
+            <div>
+                <p>DOCUMENT MANAGEMENT</p>
+                <h1>Edit Document</h1>
+                <p>Update your document information and keep it up to date</p>
+            </div>
+            <div class="form-header-icon">📄</div>
+         </section>
+
+         <!-- Edit Form -->
+          <section class="form-container">
+            <h2>Document Information</h2>
+            <p>Make the necessary changes to your document details.</p>
+            <form method="post">
+                {% csrf_token %}
+                <label for="title">Document Name *</label>
+                <input type="text" id="title" name="title" value="{{ document.title }}" placeholder="e.g. Driving Licence" required>
+
+                <label for="document_type">Document Type *</label>
+                <input type="text" id="document_type" name="document_type" vale="{{ document.document_type }}" required>
+
+                <label for="issue_date">Issue Date *</label>
+                <input type="date" id="issue_date" name="issue_date" value="{{document.issue_date|date:'Y-m-d' }}" required>
+
+                <label for="expiry_date">Expiry Date *</label>
+                <input type="date" id="expiry_date" name="expiry_date" value="{{ document.expiry_date|date:'Y-m-d' }}" required>
+
+                <div class="form-actions">
+                    <a href="{% url 'home' %}" class="back-link">Cancel</a>
+                    <button type="submit" class="btn">Update Document</button>
+                </div>
+            </form>
+          </section>
+     </main>
+</body>
+</html>

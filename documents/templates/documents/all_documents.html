@@ -1,0 +1,80 @@
+[{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLedger | All Documents</title>
+    <link rel="stylesheet" href="{% static 'documents/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">LifeLedger.</div>
+        <a href="{% url 'home' %}" class="nav-link">Dashboard</a>
+    </nav>
+
+    <main class="container">
+        <section class="welcome-section">
+            <div>
+                <h1>All Documents</h1>
+                <p>Manage your documents and keep track of expiry dates.</p>
+            </div>
+            <div class="dashboard-actions">
+                <a href="{% url 'add_document' %}" class="btn">+ Add Document</a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Your Documents</h2>
+            <form method="GET" class="filter-form">
+                <input type="text", name="search" placeholder="Search by document name..." value="{{ search_query }}">
+                <select name="type">
+                    <option value="">All Document Types</option>
+                    {% for doc_type in document_types %}
+                    <option value="{{ doc_type }}">  {{ doc_type }}</option>
+                {% endfor %}
+                </select>
+
+                <select name="status">
+                    <option value="">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="expiring">Expiring Soon</option>
+                    <option value="expired">Expired</option>
+                </select>
+
+                <button type="submit" class="btn">Search / Filter</button>
+                <a href="{% url 'all_documents' %}" class="btn">Clear Filters</a>
+            </form>
+
+
+            <div class="document-list">
+                {% for document in documents %}
+                <div class="document-row">
+                    <div>
+                        <p class="document-name">{{ document.title}}</p>
+                        <p class="document-type">Type: {{document.document_type}}</p>
+                        <p class="document_date">Expires: {{ document.expiry_date |date:"d M Y"}}</p>
+                    </div>
+                    <div>
+                        {% if document.status == 'Expired' %}
+                            <span class=" status status-expired">Expired</span>
+                        {% elif document.status == 'Expiring Soon' %}
+                           <span class="status-expired">Expired</span>
+                        {% else %}
+                            <span class="status-active">Active</span>
+                        {% endif %}
+
+                        <p>
+                            <a href="{% url 'edit_document' document.id %}">Edit</a>|
+                            <a href="{% url 'delete_document' document.id %}">Delete</a>
+                        </p>
+                    </div>
+                </div>
+                {% empty %}
+                <p> No documents have been added yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
