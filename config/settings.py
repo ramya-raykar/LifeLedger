@@ -159,19 +159,13 @@ STORAGES = {
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
-        "OPTIONS": {
-            "host": "smtp.gmail.com",
-            "port": 587,
-            "use_tls": True,
-            "username": config("LIFELEDGER_EMAIL"),
-            "password": config("LIFELEDGER_EMAIL_APP_PASSWORD"),
-            "timeout": 30
-        },
-    },
-}
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("LIFELEDGER_EMAIL")
+EMAIL_HOST_PASSWORD = config("LIFELEDGER_EMAIL_APP_PASSWORD")
+EMAIL_TIMEOUT = 30
 
 DEFAULT_FROM_EMAIL = config("LIFELEDGER_EMAIL")
 
